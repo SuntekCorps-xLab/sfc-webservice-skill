@@ -14,7 +14,9 @@ Teach agents and developers how to call the **official SFC customer logistics AP
 
 - https://www.sendfromchina.com/api
 
-This is **not** the Shopify open-source storefront (`shopify-sfc-shipping-tools`). That product goes through App Proxy. This skill is for **direct** ERP / WMS / custom backend → SFC.
+This is **not** the Shopify open-source storefront (`sfc-shipping-tools`). That product goes through App Proxy. This skill is for **direct** ERP / WMS / custom backend → SFC.
+
+Install this repository as a Codex skill under `$CODEX_HOME/skills/sfc-webservice` (or `$HOME/.codex/skills/sfc-webservice` when `CODEX_HOME` is unset). See [README.md](README.md#install-the-skill) for copy-ready commands.
 
 ## Security (non-negotiable)
 
@@ -84,6 +86,6 @@ When helping a user integrate:
 
 ## Out of scope
 
-- Shopify theme / App Proxy (`/apps/sfc-tools`) — use `shopify-sfc-shipping-tools`.
+- Shopify theme / App Proxy (`/apps/sfc-tools`) — use [sfc-shipping-tools](https://github.com/SuntekCorps-xLab/sfc-shipping-tools).
 - Internal iship2 admin APIs.
 - Storing or reverse-engineering production pricing rules.

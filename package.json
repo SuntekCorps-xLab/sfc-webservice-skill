@@ -1,0 +1,20 @@
+{
+  "name": "sfc-webservice-skill",
+  "version": "1.0.0",
+  "description": "Codex skill and implementation reference for the SFC customer WebService API.",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git"
+  },
+  "scripts": {
+    "check": "npm run verify && npm test",
+    "test": "node --test",
+    "verify": "node scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

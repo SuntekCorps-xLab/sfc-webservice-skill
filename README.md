@@ -1,5 +1,10 @@
 # SFC WebService Skill
 
+[![CI](https://github.com/SuntekCorps-xLab/sfc-webservice-skill/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SuntekCorps-xLab/sfc-webservice-skill/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/SuntekCorps-xLab/sfc-webservice-skill/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/SuntekCorps-xLab/sfc-webservice-skill/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/github/v/release/SuntekCorps-xLab/sfc-webservice-skill?display_name=tag)](https://github.com/SuntekCorps-xLab/sfc-webservice-skill/releases)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 Integration guide for the **SFC customer logistics WebService** — shipping methods, rates, orders, labels, tracking, and related operations.
 
 Canonical documentation (field-level schemas):
@@ -7,6 +12,31 @@ Canonical documentation (field-level schemas):
 - https://www.sendfromchina.com/api
 
 This repository summarizes the API surface and recommended call order. It does **not** replace the official page, and it does **not** include production credentials or private pricing rules.
+
+## Install the Skill
+
+### Codex
+
+Clone the repository into the Codex skills directory. The command keeps the required `SKILL.md` at the skill root:
+
+```bash
+git clone https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git "$HOME/.codex/skills/sfc-webservice"
+```
+
+PowerShell:
+
+```powershell
+$skillPath = if ($env:CODEX_HOME) { Join-Path $env:CODEX_HOME "skills\sfc-webservice" } else { Join-Path $HOME ".codex\skills\sfc-webservice" }
+git clone https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git $skillPath
+```
+
+Restart the agent after installation, then verify that the skill directory contains `SKILL.md`. To update an existing installation:
+
+```bash
+git -C "$HOME/.codex/skills/sfc-webservice" pull --ff-only
+```
+
+The repository is also usable as a standalone reference: open `SKILL.md` first, then read only the linked reference or example needed for the operation.
 
 ## Access
 
@@ -99,7 +129,22 @@ Always verify request/response fields on the official webservice page before pro
 
 Shopify storefront reference (App Proxy), separate product:
 
-https://github.com/SendFromChina/shopify-sfc-shipping-tools
+https://github.com/SuntekCorps-xLab/sfc-shipping-tools
+
+## Verification
+
+Run the repository checks before opening a pull request:
+
+```bash
+npm ci
+npm run check
+```
+
+The checks validate Skill frontmatter, internal Markdown links, required public files, example credential boundaries, and JavaScript syntax. They do not call SFC or require production credentials.
+
+## Versioning
+
+The version is recorded in `package.json` and must match the release tag without a leading `v` (for example, package version `1.0.0` is released as tag `v1.0.0`). Release notes are maintained in [CHANGELOG.md](CHANGELOG.md). See [RELEASING.md](RELEASING.md) for the release checklist.
 
 ## License
 
