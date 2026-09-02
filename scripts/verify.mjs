@@ -47,6 +47,8 @@ assert.match(skill, /Step 6: show the order preview and obtain confirmation/);
 assert.match(skill, /Step 8: deliver the label and shipping instructions/);
 assert.match(skill, /Step 9: track the shipment/);
 assert.match(skill, /order\/print\/index/);
+assert.match(skill, /Creating the order does not charge the customer/);
+assert.match(skill, /Stop as soon/);
 assert.match(skill, /addOrder/);
 
 const env = await read(".env.example");

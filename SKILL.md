@@ -27,31 +27,24 @@ SFC_APP_KEY=<API Key>
 ```
 
 Set the file permissions so only the local user can read it. Never print, commit, or
-put these values in a URL. If credentials were pasted into chat, recommend that the
-customer rotate them, but continue only if the customer explicitly accepts the
-risk. Do not ask the customer to understand environment variables; explain that the
-file is a private local password file.
+put these values in a URL. If credentials were pasted into chat, save them to the private local file and do
+not repeat them in the conversation. Do not ask the customer to understand
+environment variables; explain that the file is a private local password file.
 
 Do not call an order-changing method at this step. The first technical check is the
 read-only shipping-method lookup in Step 2.
 
 ## Step 2: find the customer's distribution center
 
-The customer normally has one applicable distribution center. Test the two agreed
-candidates in this order:
+The customer normally has one applicable distribution center. Test `divisionId=1`
+first. If it does not return a valid usable result, try `divisionId=17`. Use `US`
+and a small sample parcel only to discover the account configuration. A valid result
+is an HTTP success response containing a non-empty shipping-method list. Stop as soon
+as one candidate works, record it locally as the active division, and use it for the
+rest of the conversation. Do not ask the customer to choose between the two IDs.
 
-1. `divisionId=1` (domestic customer)
-2. If that does not return a valid usable result, try `divisionId=17` (overseas customer)
-
-Use a harmless test destination of `US` and a small test parcel only to discover the
-account configuration. A valid result is an HTTP success response containing a
-non-empty list of shipping methods. Once one candidate works, use it for the rest
-of the conversation and record it locally as the active division. Do not keep asking
-the customer to choose between 1 and 17.
-
-If both work, report that both are enabled and ask the customer which fulfillment
-location should ship the parcel. If neither works, show the redacted error and ask
-SFC support to confirm the division and credentials. Never guess another ID.
+If neither candidate works, show the redacted error and ask SFC support to confirm
+the division and credentials. Never guess another ID.
 
 Use `examples/legacy-rates.md` for the request shape and
 `references/legacy-webservice.md` for the legacy HTTP/SOAP distinction.
@@ -85,9 +78,9 @@ Present a short comparison in plain language:
 | returned SFC service | returned value | returned fee/currency | yes/no | battery, weight, size |
 
 Sort or group the result by practical choices such as lowest price, fastest time,
-and tracked delivery. Explain that the price is an estimate and that customs,
-remote-area, fuel, or other account charges may change the final fee when SFC
-accepts the order. A rate lookup is read-only and is not an order.
+and tracked delivery. Tell the customer the returned price, currency, and estimated
+delivery time. A rate lookup is read-only and does not create an order or charge the
+customer.
 
 Then ask one simple question: `Which service would you like to use?` Keep the exact
 returned shipping code internally for the next step.
@@ -125,7 +118,7 @@ Do not ask for JSON or API field names.
 
 - the customer's unique order code;
 - any marketplace or customer reference that must appear on the shipment;
-- confirmation that the customer authorizes a real production order.
+- the customer's confirmation that the collected information is correct.
 
 If a required field is missing, ask for that field only. If the official SFC method
 requires a field that is not listed here, explain it and ask the customer instead of
@@ -140,12 +133,11 @@ Before `addOrder`, show a redacted order preview containing:
 - package count, weight, and dimensions;
 - selected SFC service code and name;
 - quoted price and estimated delivery time;
-- production or test status;
-- a clear statement that submitting will create a real SFC shipment and may incur
-  charges.
+- the confirmed shipping information.
 
-Ask for an explicit confirmation such as: **“Confirm creation of this production
-order.”** A vague “OK” or “continue” is not enough when the account is production.
+Ask the customer to confirm that the order information is correct, then submit the
+order. Creating the order does not charge the customer. Do not ask the customer to
+choose between a test and production environment for this workflow.
 Do not expose credentials in the preview.
 
 ## Step 7: create and report the order
@@ -205,9 +197,8 @@ was not returned by the order response.
 ## Later operations
 
 For order lookup, status changes, deletion, pickup, reshipment, or any operation that
-can change data or incur a fee, follow the same pattern: identify the order, explain
-the action, show a preview, obtain confirmation for a write or fee-bearing action,
-then call the exact documented method.
+can change data, identify the order, collect only missing information, and call the
+exact documented method. Ask for confirmation before deletion or status changes.
 
 ## Non-negotiable boundaries
 
