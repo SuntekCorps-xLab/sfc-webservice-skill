@@ -14,7 +14,7 @@ const requiredFiles = [
   "references/auth.md",
   "references/divisions.md",
   "references/endpoints.md",
-  "examples/https-rates.md",
+  "examples/legacy-rates.md",
   "examples/soap-ship-types.md",
 ];
 const textFiles = [
@@ -25,7 +25,7 @@ const textFiles = [
   "references/auth.md",
   "references/divisions.md",
   "references/endpoints.md",
-  "examples/https-rates.md",
+  "examples/legacy-rates.md",
   "examples/soap-ship-types.md",
 ];
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
@@ -36,15 +36,10 @@ assert.match(packageMetadata.version, /^\d+\.\d+\.\d+$/);
 const changelog = await read("CHANGELOG.md");
 assert.ok(changelog.includes(`## [${packageMetadata.version}]`));
 
-for (const file of textFiles) {
-  const content = await read(file);
-  assert.ok(!content.includes("github.com/SendFromChina/shopify-sfc-shipping-tools"));
-}
-
 const skill = await read("SKILL.md");
 assert.match(skill, /^---\r?\nname: sfc-webservice\r?\ndescription: [\s\S]*?\r?\n---\r?\n/);
 assert.match(skill, /https:\/\/www\.sendfromchina\.com\/api/);
-assert.match(skill, /sfc-shipping-tools/);
+assert.match(skill, /legacy customer WebService/);
 
 const env = await read(".env.example");
 assert.match(env, /^SFC_APP_KEY=$/m);

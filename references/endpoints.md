@@ -55,4 +55,4 @@ Field-level schemas change and are lengthy. For any method you implement:
 2. Copy required/optional fields from there  
 3. Do not invent `apiName` values not listed officially  
 
-This file is a map, not a full OpenAPI substitute.
+This file is a map, not a replacement for the official field-level specification.

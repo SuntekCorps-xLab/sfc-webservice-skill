@@ -2,7 +2,7 @@
 
 ## Scope
 
-Changes should improve the SFC customer WebService Skill without expanding it into the Shopify App Proxy product. Keep field names and endpoint names grounded in the official SFC documentation or an included reference.
+Changes should improve the SFC logistics integration Skill. Keep field names and endpoint names grounded in the official SFC documentation or an included reference.
 
 ## Before opening a pull request
 

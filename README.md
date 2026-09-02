@@ -11,7 +11,9 @@ Canonical documentation (field-level schemas):
 
 - https://www.sendfromchina.com/api
 
-This repository summarizes the API surface and recommended call order. It does **not** replace the official page, and it does **not** include production credentials or private pricing rules.
+This repository is a practical guide for the SFC customer WebService. It explains how to choose an operation, prepare credentials, make a read-only request, and safely proceed to order operations. It does **not** replace the official page or include production credentials and private pricing rules.
+
+If you are new to APIs, start with [SKILL.md](SKILL.md), then use the beginner example for your operation. An API key or token protects your account. Put it in your own secret configuration and never send it in chat.
 
 ## Install the Skill
 
@@ -54,7 +56,7 @@ Ask your SFC account manager for credentials. Keep them in environment variables
 
 | Protocol | URL | Notes |
 |----------|-----|--------|
-| **HTTPS** (preferred) | `https://www.sendfromchina.com/ishipsvc/http-api` | Pass `apiName` + JSON `parameter` |
+| **HTTPS** (preferred) | `https://www.sendfromchina.com/ishipsvc/http-api` | Legacy HTTP API: pass `apiName` + JSON `parameter` |
 | SOAP | `https://www.sendfromchina.com/ishipsvc/web-service?wsdl` | Still used for several order methods |
 
 Official guidance: prefer HTTPS when both protocols exist for the same capability.
@@ -120,16 +122,10 @@ Auth header: [references/auth.md](references/auth.md)
 
 ## Examples in this repo
 
-- [examples/https-rates.md](examples/https-rates.md) — HTTPS ship types / rates
-- [examples/soap-ship-types.md](examples/soap-ship-types.md) — SOAP `getShipTypes`
+- [examples/legacy-rates.md](examples/legacy-rates.md) — beginner HTTPS ship-type lookup (legacy HTTP API)
+- [examples/soap-ship-types.md](examples/soap-ship-types.md) — beginner SOAP `getShipTypes`
 
 Always verify request/response fields on the official webservice page before production use.
-
-## Related project
-
-Shopify storefront reference (App Proxy), separate product:
-
-https://github.com/SuntekCorps-xLab/sfc-shipping-tools
 
 ## Verification
 

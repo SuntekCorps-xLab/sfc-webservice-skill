@@ -1,91 +1,96 @@
 ---
 name: sfc-webservice
 description: >-
-  Integrates with the SFC (SendFromChina / sfcservice) customer WebService API
-  for shipping rates, order creation, tracking, labels, and related logistics
-  operations. Use when the user mentions SFC API, SFC WebService, sfcservice
-  webservice, SOAP/HTTPS shipping integration, getShipTypes, getRates, addOrder,
-  getTrack, or ERP/WMS docking with SFC — not the Shopify App Proxy storefront.
+  Helps developers and non-technical users plan, test, and implement the official
+  SFC (SendFromChina / SFC Service) customer logistics WebService. Use whenever the
+  user mentions SFC API, SFC WebService, shipping rates, shipping methods, create
+  order, tracking, labels, ERP/WMS, SOAP, HTTP API, or sfcservice. Follow the
+  legacy customer WebService guide and never invent undocumented fields.
 ---
 
-# SFC WebService Integration
+# SFC logistics integration
 
-Teach agents and developers how to call the **official SFC customer logistics API** documented at:
+This skill helps an agent turn a user's shipping requirement into a safe, testable
+SFC integration. It is written so the user does not need to know API terminology.
+The agent must explain the next step in plain language, collect missing business
+information, and show exactly what will happen before making a real request.
 
-- https://www.sendfromchina.com/api
+## First: confirm the operation
 
-This is **not** the Shopify open-source storefront (`sfc-shipping-tools`). That product goes through App Proxy. This skill is for **direct** ERP / WMS / custom backend → SFC.
+Ask one short question if the context is unclear: do they need shipping methods,
+price quotes, order creation, order lookup, labels, or tracking? This skill covers
+only the SFC customer WebService documented at https://www.sendfromchina.com/api.
+Read `references/legacy-webservice.md` for the protocol and operation guide.
 
-Install this repository as a Codex skill under `$CODEX_HOME/skills/sfc-webservice` (or `$HOME/.codex/skills/sfc-webservice` when `CODEX_HOME` is unset). See [README.md](README.md#install-the-skill) for copy-ready commands.
+## Safe workflow for every request
 
-## Security (non-negotiable)
+1. Translate the user's goal into one operation: list shipping methods, quote a
+   shipment, create an order, query an order, print a label, or track a parcel.
+2. Ask for only the information needed for that operation. For a quote, collect
+   origin country, destination country, and weight. For an order, also collect the
+   customer's order code, recipient, items, shipping method, dimensions, declared
+   values, and any customs information required by the selected method.
+3. Identify the account type and credentials. Never ask the user to paste a secret
+   into chat or commit it. Use environment variables or the user's secret manager.
+4. Read the matching reference and official documentation before writing a request.
+   The official links are the authority because fields and authentication are
+   account-specific and can change.
+5. Produce a **dry run first**: show the URL, HTTP method, non-secret headers,
+   redacted body, and expected result. Do not create, update, intercept, or delete
+   an order without explicit confirmation immediately before the request.
+6. For a read-only call, execute only after the user confirms credentials are
+   configured. For a write call, confirm the exact order code, shipping method,
+   recipient, and whether the request is production or test.
+7. Validate both HTTP status and the business response. Follow the response
+   fields in the official method documentation; never continue to label, track, or
+   order based only on HTTP 200.
+8. On timeout or an unknown result from order creation, **do not retry blindly**.
+   Query the order using the same order code first and ask SFC support if the result
+   cannot be determined.
+9. Report what happened, including the operation, SFC identifier returned, and any
+   next action. Redact `appKey`, `token`, `customerId`, `appToken`, API keys, and
+   signatures from logs and screenshots.
 
-- Never commit real `appKey`, `token`, or `userId`.
-- Prefer environment variables or a secret manager.
-- Treat every response as untrusted input; validate before acting on order / tracking numbers.
-- Do not invent endpoints or field names; if unsure, open the official page or [references/endpoints.md](references/endpoints.md).
+## Rules that prevent common failures
 
-## Endpoints
+- Use the legacy customer WebService credentials and request format documented in
+  `references/legacy-webservice.md`. Do not introduce another SFC API family.
+- Do not invent a signature algorithm, endpoint, field, unit, sandbox, or success
+  code. If the account manager has not supplied it, stop and ask SFC IT Support.
+- Treat shipping type codes, warehouse/division IDs, countries, customs rules,
+  weight/dimension units, and required order fields as account/method-specific.
+- Keep all examples on placeholders. Never use a real recipient or production
+  order in a tutorial.
+- A rate quote is not an order. Present the quote and selected shipping method for
+  confirmation before creating an order.
 
-| Protocol | URL | Prefer? |
-|----------|-----|---------|
-| HTTPS API | `https://www.sendfromchina.com/ishipsvc/http-api` | **Yes** (official guidance) |
-| SOAP WSDL | `https://www.sendfromchina.com/ishipsvc/web-service?wsdl` | Legacy / still used for some ops |
+## Progressive reference map
 
-HTTPS form: query or POST with `apiName` + JSON `parameter` (URL-encoded when in query string).
+| Need | Read |
+|---|---|
+| Legacy SOAP/HTTP API, credentials, and request format | `references/legacy-webservice.md` |
+| Legacy authentication details | `references/auth.md` |
+| Legacy warehouse/division IDs | `references/divisions.md` |
+| Beginner copy-and-run examples | `examples/legacy-rates.md` and `examples/soap-ship-types.md` |
 
-Every call includes:
+Official sources:
 
-```json
-"HeaderRequest": {
-  "appKey": "<from SFC>",
-  "token": "<from SFC>",
-  "userId": "<customer code>"
-}
-```
+- API landing page: https://www.sendfromchina.com/api
+- IT support: IT_Support@SendFromChina.com
 
-Credentials are provisioned by SFC (customer manager / support), not self-served in this repo.
+## What to ask the user for
 
-## Recommended integration flow
+Use this checklist and mark unknown items as “needs SFC confirmation” rather than
+guessing:
 
-```text
-1. getShipTypes / getShiptypesByCountry  → pick method_code
-2. getRates / getRatesByShip             → confirm price & service
-3. addOrder                              → create shipment
-4. confirm / update status if required
-5. print label / getTrack                → ops & CX
-```
+- Which SFC API and account credentials they have;
+- read-only quote/tracking versus an order-changing operation;
+- origin warehouse or division, destination country/address, package weight and
+  dimensions;
+- selected shipping type code, if already known;
+- order code and item details for an order;
+- whether the request is a dry run, an authorized production action, or a test
+  account.
 
-Official preface:
-
-1. Business process: https://www.sendfromchina.com/help (or account manager).
-2. Before `addOrder`, use ship-type + rates APIs and account-manager advice.
-3. Prefer HTTPS over SOAP when both exist.
-
-Division IDs (common): Shenzhen `1`, Guangzhou `2`, Shanghai `14`, Yiwu `31`, Hangzhou `34`. Full table: [references/divisions.md](references/divisions.md).
-
-## Agent instructions
-
-When helping a user integrate:
-
-1. Ask which operations they need (rates only, create order, tracking, labels).
-2. Default new code to **HTTPS**; use SOAP only when the needed method is SOAP-only or they already have a SOAP client.
-3. Scaffold with placeholder credentials and `.env.example` — never paste production secrets.
-4. Point them at the matching section on the official webservice page for full field tables.
-5. After scaffolding, list test checklist: auth OK → ship types → rates → sandbox/test method if available → one real order only with explicit user consent.
-
-## Progressive docs in this repo
-
-| File | When to read |
-|------|----------------|
-| [references/endpoints.md](references/endpoints.md) | Method catalog (SOAP vs HTTPS) |
-| [references/divisions.md](references/divisions.md) | Division ID list |
-| [references/auth.md](references/auth.md) | HeaderRequest details |
-| [examples/https-rates.md](examples/https-rates.md) | Minimal HTTPS rates example |
-| [examples/soap-ship-types.md](examples/soap-ship-types.md) | Minimal SOAP getShipTypes example |
-
-## Out of scope
-
-- Shopify theme / App Proxy (`/apps/sfc-tools`) — use [sfc-shipping-tools](https://github.com/SuntekCorps-xLab/sfc-shipping-tools).
-- Internal iship2 admin APIs.
-- Storing or reverse-engineering production pricing rules.
+For a non-technical user, explain that an API key/token is like a password and ask
+them to place it in their local secret configuration, not send it in chat.
