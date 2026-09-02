@@ -10,6 +10,10 @@ test("Skill documents the legacy customer WebService scope", async () => {
   const skill = await fs.readFile(path.join(root, "SKILL.md"), "utf8");
   assert.match(skill, /^name: sfc-webservice$/m);
   assert.ok(skill.includes("legacy customer WebService"));
+  assert.ok(skill.includes("Step 1: save and verify credentials"));
+  assert.ok(skill.includes("Step 6: show the order preview and obtain confirmation"));
+  assert.ok(skill.includes("divisionId=1"));
+  assert.ok(skill.includes("divisionId=17"));
 });
 
 test("examples use placeholders instead of credentials", async () => {

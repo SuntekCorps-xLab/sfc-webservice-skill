@@ -39,7 +39,15 @@ assert.ok(changelog.includes(`## [${packageMetadata.version}]`));
 const skill = await read("SKILL.md");
 assert.match(skill, /^---\r?\nname: sfc-webservice\r?\ndescription: [\s\S]*?\r?\n---\r?\n/);
 assert.match(skill, /https:\/\/www\.sendfromchina\.com\/api/);
-assert.match(skill, /legacy customer WebService/);
+assert.match(skill, /Step 1: save and verify credentials/);
+assert.match(skill, /divisionId=1/);
+assert.match(skill, /divisionId=17/);
+assert.match(skill, /Step 4: query and explain prices/);
+assert.match(skill, /Step 6: show the order preview and obtain confirmation/);
+assert.match(skill, /Step 8: deliver the label and shipping instructions/);
+assert.match(skill, /Step 9: track the shipment/);
+assert.match(skill, /order\/print\/index/);
+assert.match(skill, /addOrder/);
 
 const env = await read(".env.example");
 assert.match(env, /^SFC_APP_KEY=$/m);

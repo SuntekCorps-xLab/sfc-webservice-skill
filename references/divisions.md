@@ -1,6 +1,16 @@
 # Division centers
 
-Source: official webservice docs. Default when omitted is often Shenzhen (`1`).
+These are the two account categories currently used by this customer workflow:
+
+- `1`: domestic customer distribution center
+- `17`: overseas customer distribution center
+
+Try `1` first and then `17` only if the first lookup does not return a valid
+non-empty shipping-method list. Do not assume both are enabled, and do not guess
+another ID. The active value must be confirmed by a successful read-only lookup.
+
+The values below are historical/common SFC IDs and must not override the discovery
+process above.
 
 | Division ID | Chinese | English |
 |-------------|---------|---------|

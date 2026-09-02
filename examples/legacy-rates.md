@@ -16,7 +16,13 @@ SFC issues these values. Do not paste them into public tickets, source code, or
 chat. Confirm the division ID with SFC; the example must not be hard-coded to a
 particular warehouse.
 
-## 2. Build the request safely
+## 2. Discover the distribution center
+
+For this customer workflow, try `divisionId=1` first with `US` and a small parcel.
+If it does not return a non-empty shipping-method list, repeat with `divisionId=17`.
+Stop at the first successful result. This is a read-only check.
+
+## 3. Build the request safely
 
 The legacy HTTP endpoint expects `apiName` plus a JSON string in `parameter`. The
 following Python script performs URL encoding for you:

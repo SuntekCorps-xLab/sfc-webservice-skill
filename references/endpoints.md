@@ -32,8 +32,8 @@ Base URLs:
 
 | Capability | Notes |
 |------------|--------|
-| Address label print | HTTPS page URL under `/order/print/index/` with `orderCodeList`, `printType`, `print_type`, `printSize` — see official docs |
-| Tracking (new) | HTTPS `getTrack` |
+| Address label print | PDF page commonly under `https://www.sfcservice.com/order/print/index/` with URL-encoded `orderCodeList`, `printType=1`, `print_type=pdf`, `printSize=3`; confirm account/service parameters |
+| Tracking | HTTPS `getTrack` with the returned tracking number; a new label may have no scan yet |
 | Carrier by number | HTTPS on official page |
 | Tracking / label upload | HTTPS on official page |
 
