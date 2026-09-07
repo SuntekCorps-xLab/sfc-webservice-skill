@@ -47,9 +47,13 @@ assert.match(skill, /Step 6: show the order preview and obtain confirmation/);
 assert.match(skill, /Step 8: deliver the label and shipping instructions/);
 assert.match(skill, /Step 9: track the shipment/);
 assert.match(skill, /order\/print\/index/);
-assert.match(skill, /Creating the order does not charge the customer/);
+assert.match(skill, /does not charge the customer at this stage/);
+assert.match(skill, /Do not ask for a sandbox account/);
 assert.match(skill, /Stop as soon/);
 assert.match(skill, /addOrder/);
+assert.match(await read("examples/legacy-rates.md"), /method=\"GET\"/);
+assert.match(await read("examples/legacy-rates.md"), /http-api\?\" \+ query/);
+assert.match(await read("examples/legacy-rates.md"), /POST returned an authentication error/);
 
 const env = await read(".env.example");
 assert.match(env, /^SFC_APP_KEY=$/m);

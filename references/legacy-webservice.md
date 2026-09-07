@@ -29,9 +29,17 @@ agreement. Ask SFC if unclear.
 ## HTTPS request shape
 
 The HTTP endpoint takes the exact method name in `apiName` and a JSON-encoded
-`parameter`. For a GET request, URL-encode the JSON. For POST, follow the exact
-encoding shown for that method in the official docs; do not assume a JSON object and
-do not assume every SOAP method has an HTTP equivalent.
+`parameter`. For this customer workflow, use the verified GET form:
+
+```text
+GET https://www.sendfromchina.com/ishipsvc/http-api?apiName=getShiptypesByCountry&parameter=<URL-encoded JSON string>
+```
+
+The local service code accepts form parameters on POST, but the current customer
+account returned an authentication error for the form-encoded POST while GET
+succeeded. JSON request bodies were rejected as an unknown `apiName` format. Treat
+POST as unsupported for this account unless SFC confirms and tests it. Do not assume
+every SOAP method has an HTTP equivalent.
 
 Example read-only request structure:
 

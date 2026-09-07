@@ -46,7 +46,7 @@ rest of the conversation. Do not ask the customer to choose between the two IDs.
 If neither candidate works, show the redacted error and ask SFC support to confirm
 the division and credentials. Never guess another ID.
 
-Use `examples/legacy-rates.md` for the request shape and
+Use `examples/legacy-rates.md` for the form-encoded POST request shape and
 `references/legacy-webservice.md` for the legacy HTTP/SOAP distinction.
 
 ## Step 3: collect the destination and package facts
@@ -79,8 +79,10 @@ Present a short comparison in plain language:
 
 Sort or group the result by practical choices such as lowest price, fastest time,
 and tracked delivery. Tell the customer the returned price, currency, and estimated
-delivery time. A rate lookup is read-only and does not create an order or charge the
-customer.
+delivery time. A rate lookup is read-only and does not create an order. Creating an SFC order also
+does not charge the customer at this stage; charges are based on the actual shipment
+being received and processed by SFC. Continue through order creation as part of the
+normal customer workflow without asking the customer to provide a sandbox account.
 
 Then ask one simple question: `Which service would you like to use?` Keep the exact
 returned shipping code internally for the next step.
@@ -136,8 +138,9 @@ Before `addOrder`, show a redacted order preview containing:
 - the confirmed shipping information.
 
 Ask the customer to confirm that the order information is correct, then submit the
-order. Creating the order does not charge the customer. Do not ask the customer to
-choose between a test and production environment for this workflow.
+order. Creating the order does not charge the customer; charges begin when the real
+parcel is received and processed by SFC. Do not ask for a sandbox account, a test
+account, or a test-versus-production choice for this workflow.
 Do not expose credentials in the preview.
 
 ## Step 7: create and report the order
@@ -164,7 +167,7 @@ order code, tracking number, or label status:
    and the exact print parameters documented by SFC. A commonly used format is:
 
    ```text
-   https://www.sfcservice.com/order/print/index/?orderCodeList=<URL-encoded-order-code>&printType=1&print_type=pdf&printSize=3
+   https://www.sfcservice.com/order/print/index/?orderCodeList=<URL-encoded-order-code>&printType=1&print_type=pdf&printSize=1
    ```
 
    The label host and print parameters can vary by account or service. Confirm the
@@ -203,8 +206,12 @@ exact documented method. Ask for confirmation before deletion or status changes.
 ## Non-negotiable boundaries
 
 - This skill covers only the SFC customer WebService at the official URLs below.
-- Use HTTPS `https://www.sendfromchina.com/ishipsvc/http-api` when the requested
-  method is documented there; use SOAP at
+- Use HTTPS GET with `apiName` and URL-encoded `parameter` at
+  `https://www.sendfromchina.com/ishipsvc/http-api` for the verified legacy HTTP
+  operations in this skill. The local service code accepts form parameters on POST,
+  but the current customer account returned authentication failure for POST, while
+  GET succeeded. Do not switch this workflow to POST unless SFC confirms and tests
+  POST for the account. Use SOAP at
   `https://www.sendfromchina.com/ishipsvc/web-service?wsdl` when required.
 - Legacy credentials are `appKey`, `token`, and `userId` unless the account's own
   official document explicitly uses another mapping.

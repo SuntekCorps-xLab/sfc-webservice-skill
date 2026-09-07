@@ -13,7 +13,8 @@ try {
             'token' => getenv('SFC_TOKEN'),
             'userId' => getenv('SFC_USER_ID'),
         ),
-        'divisionId' => '1',
+        // Use the division ID discovered by Step 2 in SKILL.md.
+        'divisionId' => getenv('SFC_DIVISION_ID'),
     );
     $result = $client->getShipTypes($parameter);
     print_r($result);
