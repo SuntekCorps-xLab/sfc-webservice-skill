@@ -33,7 +33,7 @@ Base URLs:
 
 | Capability | Notes |
 |------------|--------|
-| Address label print | PDF page commonly under `https://www.sfcservice.com/order/print/index/` with URL-encoded `orderCodeList`, `printType=1`, `print_type=pdf`, `printSize=1` (10×15 cm); use this default unless SFC gives the account a different instruction |
+| Address label print | PDF page commonly under `https://www.sfcservice.com/order/print/index/` with URL-encoded `orderCodeList`, `printType=1`, `print_type=pdf`, `printSize=1` (10×15 cm); use this default unless SFC gives the account a different instruction. The print page is unauthenticated — treat the URL as a bearer link (private channels only, never log it) and prefer unguessable customer order codes |
 | Tracking | No scan-level tracking method exists on the legacy WebService (neither `http-api` nor the WSDL). Use `searchOrder` for order status plus `trackNumber`; scan-level events come from the carrier's site or the Fulfillment v3 API `GET https://fulfill.sendfromchina.com/v3/trackings/{trackingNumber}` with its own `ApiKeyAuth` / `SignatureAuth` credentials. A new label may have no scan yet |
 | Carrier by number | HTTPS on official page |
 | Tracking / label upload | HTTPS on official page |

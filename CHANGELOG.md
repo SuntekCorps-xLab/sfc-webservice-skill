@@ -22,6 +22,7 @@ All notable changes to this Skill are documented here.
 - Added an explicit transport rule against plaintext `http://`: the `http-api` host answers plain HTTP with normal business responses (no redirect, no HSTS), so SKILL.md boundaries and `references/auth.md` now require refusing any `http://` SFC URL, and the HTTP example asserts the `https://` scheme before sending (#26).
 - SECURITY.md now names working private reporting channels (GitHub private vulnerability reporting — enabled for this repository — and IT_Support@SendFromChina.com) instead of pointing at admin-only repository settings (#28).
 - README install/update commands now honor `CODEX_HOME` on bash (matching the PowerShell variant), and a PowerShell update command was added (#29).
+- SKILL.md Step 8 and the endpoint map now treat the label print URL as a bearer link: the print page looks up orders without any credential or login, so the link must go through private channels only, must not be logged, and customers should prefer unguessable order codes (#30).
 
 ## [1.0.0] - 2026-08-21
 

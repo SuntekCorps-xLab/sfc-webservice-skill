@@ -191,11 +191,17 @@ order code, tracking number, or label status:
 
    The label host and print parameters can vary by account or service. Confirm the
    current URL with SFC when the link does not return a PDF. Never put credentials in
-   this URL.
-3. Give the customer the PDF download link, explain that they should print it and
-   attach it firmly to the outside of the parcel. Do not present an internal admin
-   URL or a link containing secrets. If the response is not a PDF, stop and report
-   the safe error rather than telling the customer to print it.
+   this URL. Treat the link as a bearer URL: the print page performs the order
+   lookup without any credential or login, so anyone who obtains the link — or
+   who guesses the customer order code — can view the label, including the
+   recipient's name and address.
+3. Give the customer the PDF download link through a private channel only; do
+   not paste it into group chats, tickets, logs, or screenshots. Explain that
+   they should print it and attach it firmly to the outside of the parcel.
+   Where possible, advise the customer to use non-sequential, unguessable
+   customer order codes. Do not present an internal admin URL or a link
+   containing secrets. If the response is not a PDF, stop and report the safe
+   error rather than telling the customer to print it.
 4. Tell the customer where to send the parcel: the SFC receiving warehouse address
    assigned to this account and division. The agent must obtain that address from
    the customer's SFC account instructions or SFC support; it must never guess an
