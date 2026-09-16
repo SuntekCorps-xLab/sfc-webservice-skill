@@ -4,6 +4,8 @@ All notable changes to this Skill are documented here.
 
 ## [Unreleased]
 
+- Rewrote SKILL.md into the numbered nine-step customer journey (credentials → division discovery → destination and package facts → rate comparison → order information → preview and confirmation → `addOrder` → label and shipping instructions → tracking), and added `references/legacy-webservice.md`, the beginner HTTPS example, and the check assertions that pin the workflow (`efedb00`, `8663b90`, `b80d94b`).
+- Documented verified legacy API behavior: HTTPS GET with `apiName` + URL-encoded `parameter` is the verified form for this workflow; form-encoded POST is account-dependent and must not be used unless SFC confirms and tests it for the account (`69aedb2`).
 - Removed the nonexistent legacy `getTrack` method from the tracking workflow; documented `searchOrder` (order status and tracking number) and the Fulfillment v3 tracking API for scan-level events (#12).
 - Stopped pointing field lookups at `Cff-API-3.0.pdf` (it documents the separate Fulfillment API v3); the ishipsvc WSDL is now the documented field-level source for `addOrder` and other methods (#13).
 - Replaced the "canonical documentation" pointer to `https://www.sendfromchina.com/api` (Fulfillment REST API v3 portal, no legacy WebService content) with the ishipsvc WSDL and the `https://www.sendfromchina.com/webservice` example page (#14).
