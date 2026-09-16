@@ -20,6 +20,7 @@ All notable changes to this Skill are documented here.
 - Unified credential storage: SKILL.md Step 1 now names a concrete private file (`~/.config/sfc/credentials.env`, overridable via `SFC_ENV_FILE`) with permission commands, the HTTP example loads that file and falls back to environment variables with a clear error when credentials are missing, and README/`.env.example` match the same model (#24).
 - Fixed a leftover sentence in SKILL.md Step 2 that pointed to the HTTP example "for the form-encoded POST request shape"; the example and the boundaries mandate GET (#25).
 - Added an explicit transport rule against plaintext `http://`: the `http-api` host answers plain HTTP with normal business responses (no redirect, no HSTS), so SKILL.md boundaries and `references/auth.md` now require refusing any `http://` SFC URL, and the HTTP example asserts the `https://` scheme before sending (#26).
+- SECURITY.md now names working private reporting channels (GitHub private vulnerability reporting — enabled for this repository — and IT_Support@SendFromChina.com) instead of pointing at admin-only repository settings (#28).
 
 ## [1.0.0] - 2026-08-21
 

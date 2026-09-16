@@ -2,7 +2,10 @@
 
 ## Reporting a vulnerability
 
-Do not open a public issue for credentials, authentication defects, or a vulnerability. Report security issues privately through the repository's GitHub security reporting channel or to the maintainers listed in the repository settings.
+Do not open a public issue for credentials, authentication defects, or a vulnerability. Report privately through either channel:
+
+1. GitHub private vulnerability reporting (enabled for this repository): Security tab → Advisories → "Report a vulnerability" at https://github.com/SuntekCorps-xLab/sfc-webservice-skill/security/advisories/new
+2. Email SFC IT Support: IT_Support@SendFromChina.com (the official support contact also published on https://www.sendfromchina.com/api)
 
 Never include live `appKey`, `token`, `userId`, customer records, shipment records, or production request/response payloads in an issue or pull request.
 
