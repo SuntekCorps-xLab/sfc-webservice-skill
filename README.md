@@ -24,7 +24,7 @@ If you are new to APIs, start with [SKILL.md](SKILL.md), then use the beginner e
 Clone the repository into the Codex skills directory. The command keeps the required `SKILL.md` at the skill root:
 
 ```bash
-git clone https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git "$HOME/.codex/skills/sfc-webservice"
+git clone https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git "${CODEX_HOME:-$HOME/.codex}/skills/sfc-webservice"
 ```
 
 PowerShell:
@@ -37,7 +37,13 @@ git clone https://github.com/SuntekCorps-xLab/sfc-webservice-skill.git $skillPat
 Restart the agent after installation, then verify that the skill directory contains `SKILL.md`. To update an existing installation:
 
 ```bash
-git -C "$HOME/.codex/skills/sfc-webservice" pull --ff-only
+git -C "${CODEX_HOME:-$HOME/.codex}/skills/sfc-webservice" pull --ff-only
+```
+
+PowerShell (reuse `$skillPath` from the install step):
+
+```powershell
+git -C $skillPath pull --ff-only
 ```
 
 The repository is also usable as a standalone reference: open `SKILL.md` first, then read only the linked reference or example needed for the operation.

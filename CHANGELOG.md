@@ -21,6 +21,7 @@ All notable changes to this Skill are documented here.
 - Fixed a leftover sentence in SKILL.md Step 2 that pointed to the HTTP example "for the form-encoded POST request shape"; the example and the boundaries mandate GET (#25).
 - Added an explicit transport rule against plaintext `http://`: the `http-api` host answers plain HTTP with normal business responses (no redirect, no HSTS), so SKILL.md boundaries and `references/auth.md` now require refusing any `http://` SFC URL, and the HTTP example asserts the `https://` scheme before sending (#26).
 - SECURITY.md now names working private reporting channels (GitHub private vulnerability reporting — enabled for this repository — and IT_Support@SendFromChina.com) instead of pointing at admin-only repository settings (#28).
+- README install/update commands now honor `CODEX_HOME` on bash (matching the PowerShell variant), and a PowerShell update command was added (#29).
 
 ## [1.0.0] - 2026-08-21
 
