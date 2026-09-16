@@ -31,6 +31,10 @@ put these values in a URL. If credentials were pasted into chat, save them to th
 not repeat them in the conversation. Do not ask the customer to understand
 environment variables; explain that the file is a private local password file.
 
+An optional fourth name, `SFC_DIVISION_ID`, records the active distribution
+center. Leave it empty for now unless SFC has already confirmed the account's
+division: Step 2 discovers the value and writes it there.
+
 Do not call an order-changing method at this step. The first technical check is the
 read-only shipping-method lookup in Step 2.
 
@@ -40,8 +44,9 @@ The customer normally has one applicable distribution center. Test `divisionId=1
 first. If it does not return a valid usable result, try `divisionId=17`. Use `US`
 and a small sample parcel only to discover the account configuration. A valid result
 is an HTTP success response containing a non-empty shipping-method list. Stop as soon
-as one candidate works, record it locally as the active division, and use it for the
-rest of the conversation. Do not ask the customer to choose between the two IDs.
+as one candidate works, record it locally as the active division in
+`SFC_DIVISION_ID`, and use it for the rest of the conversation. Do not ask the
+customer to choose between the two IDs.
 
 If neither candidate works, show the redacted error and ask SFC support to confirm
 the division and credentials. Never guess another ID.
