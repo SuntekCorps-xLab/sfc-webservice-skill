@@ -61,7 +61,7 @@ customer to choose between the two IDs.
 If neither candidate works, show the redacted error and ask SFC support to confirm
 the division and credentials. Never guess another ID.
 
-Use `examples/legacy-rates.md` for the form-encoded POST request shape and
+Use `examples/legacy-rates.md` for the verified GET request shape and
 `references/legacy-webservice.md` for the legacy HTTP/SOAP distinction.
 
 ## Step 3: collect the destination and package facts

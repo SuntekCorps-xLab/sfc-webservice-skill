@@ -16,6 +16,7 @@ All notable changes to this Skill are documented here.
 - Fixed the credential-boundary scan in `scripts/verify.mjs`: it now matches the assignment formats the repository actually uses (`appKey`/`token`/`userId`/`SFC_*` with `:` or `=`, excluding `YOUR_*` and `<...>` placeholders), covers every Markdown file, and self-tests against realistic leak probes (#22).
 - `npm run check` now lives up to the README description: link and credential scans run over every tracked Markdown file (`git ls-files '*.md'`, with a static fallback for tarballs), and JavaScript files in `scripts/` and `tests/` are syntax-checked with `node --check` (#23).
 - Unified credential storage: SKILL.md Step 1 now names a concrete private file (`~/.config/sfc/credentials.env`, overridable via `SFC_ENV_FILE`) with permission commands, the HTTP example loads that file and falls back to environment variables with a clear error when credentials are missing, and README/`.env.example` match the same model (#24).
+- Fixed a leftover sentence in SKILL.md Step 2 that pointed to the HTTP example "for the form-encoded POST request shape"; the example and the boundaries mandate GET (#25).
 
 ## [1.0.0] - 2026-08-21
 
