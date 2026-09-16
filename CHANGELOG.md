@@ -23,6 +23,7 @@ All notable changes to this Skill are documented here.
 - SECURITY.md now names working private reporting channels (GitHub private vulnerability reporting — enabled for this repository — and IT_Support@SendFromChina.com) instead of pointing at admin-only repository settings (#28).
 - README install/update commands now honor `CODEX_HOME` on bash (matching the PowerShell variant), and a PowerShell update command was added (#29).
 - SKILL.md Step 8 and the endpoint map now treat the label print URL as a bearer link: the print page looks up orders without any credential or login, so the link must go through private channels only, must not be logged, and customers should prefer unguessable order codes (#30).
+- Classified every later operation as read-only or write: pickup (`addPickupBill`) and reshipment now require the same redacted preview and explicit confirmation as deletion/status changes, with response-body validation and duplicate-request handling; endpoint tables gained method names and a safety column (#31).
 
 ## [1.0.0] - 2026-08-21
 

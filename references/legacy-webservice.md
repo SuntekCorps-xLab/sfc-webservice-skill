@@ -156,6 +156,8 @@ and method names and does not apply here.
 | Find an order | `searchOrder` | Read-only |
 | Order status / tracking number | `searchOrder` (legacy has no scan-level tracking method) | Read-only |
 | Remove/change an order | `deleteOrder`, update methods | Confirm exact order first |
+| Request a pickup | `addPickupBill` | Changes data (schedules a real pickup); confirm first |
+| Reshipment fee | `getReissueFee` | Read-only quote; the reshipment itself changes data — confirm first |
 
 Names, fields, and protocol support vary by legacy document version. The official
 method schema is authoritative.

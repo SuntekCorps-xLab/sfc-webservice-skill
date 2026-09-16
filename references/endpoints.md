@@ -40,13 +40,13 @@ Base URLs:
 
 ## Delivery, proofs, exceptions
 
-| Capability | Protocol |
-|------------|----------|
-| Domestic delivery note | SOAP |
-| Ship / POD proofs | HTTPS |
-| Reship fee | HTTPS |
-| Problem parcels | HTTPS |
-| Pickup request | HTTPS |
+| Capability | Protocol | Safety |
+|------------|----------|--------|
+| Domestic delivery note (`createExpressWaybill`) | SOAP | Write — confirm first |
+| Ship / POD proofs (`getProofDelivery`) | HTTPS | Read-only |
+| Reship fee (`getReissueFee`) | HTTPS | Read-only quote; the reshipment itself is a write — confirm first |
+| Problem parcels (`getOrderProblemInfo`) | HTTPS | Read-only |
+| Pickup request (`addPickupBill`) | HTTPS | Write — schedules a real courier pickup; confirm first |
 
 ## Agent rule
 

@@ -233,9 +233,23 @@ tracking number only when it was not returned by the order response.
 
 ## Later operations
 
-For order lookup, status changes, deletion, pickup, reshipment, or any operation that
-can change data, identify the order, collect only missing information, and call the
-exact documented method. Ask for confirmation before deletion or status changes.
+Read-only operations — order lookup, fee queries, the reshipment-fee quote
+(`getReissueFee`), and problem-parcel queries — may run directly. Everything
+else is a write operation: deletion, status changes, pickup requests
+(`addPickupBill` schedules a real courier pickup), and reshipments (which
+create a new shipment and charges).
+
+For any write operation, identify the exact order, collect only missing
+information, show a redacted preview (order code, action, key fields, and any
+fee involved), and obtain the customer's explicit confirmation before calling
+the exact documented method with the fields from the official WSDL. Validate
+the business result in the response body and report the returned identifiers.
+
+If a write request times out or its result is unknown, do not submit it again.
+First search for whether the action was already recorded (the order, pickup
+bill, or reshipment); if the state is still unclear, stop and direct the
+customer to SFC support to prevent duplicate pickups, duplicate reshipments,
+or double charges.
 
 ## Non-negotiable boundaries
 
