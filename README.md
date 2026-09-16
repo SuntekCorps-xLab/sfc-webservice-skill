@@ -52,7 +52,7 @@ Every request requires:
 | `token` | Token issued by SFC |
 | `userId` | Customer code |
 
-Ask your SFC account manager for credentials. Keep them in environment variables (see `.env.example`).
+Ask your SFC account manager for credentials. Keep them in a private `KEY=VALUE` file outside the repository (default `~/.config/sfc/credentials.env`, or the path in `SFC_ENV_FILE`) or in environment variables — `.env.example` is the name/format template and may also be copied to the gitignored `.env`. Never commit real values.
 
 ## Base URLs
 

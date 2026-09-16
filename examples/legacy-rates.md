@@ -5,6 +5,26 @@ read-only request and does not create an order.
 
 ## 1. Prepare credentials privately
 
+Preferred: store the credentials in a private file outside the repository, as
+in SKILL.md Step 1. The code in section 3 reads `~/.config/sfc/credentials.env`
+by default; set `SFC_ENV_FILE` to use a different path. File format:
+
+```text
+SFC_APP_KEY=YOUR_APP_KEY
+SFC_TOKEN=YOUR_TOKEN
+SFC_USER_ID=YOUR_USER_ID
+# Optional: only when SFC confirmed the account's division; otherwise the
+# code probes for it (section 2).
+# SFC_DIVISION_ID=YOUR_CONFIRMED_DIVISION_ID
+```
+
+```bash
+chmod 600 ~/.config/sfc/credentials.env
+```
+
+Alternative (single shell session only): environment variables. The code falls
+back to them for any name the file does not set.
+
 macOS/Linux:
 
 ```bash
@@ -48,22 +68,55 @@ POST unless SFC confirms and tests it for the account.
 ```python
 import json
 import os
+import pathlib
 import urllib.parse
 import urllib.request
 
+
+def load_credentials():
+    """Read KEY=VALUE pairs from the private env file, then os.environ."""
+    env_file = pathlib.Path(
+        os.environ.get(
+            "SFC_ENV_FILE",
+            pathlib.Path.home() / ".config" / "sfc" / "credentials.env",
+        )
+    )
+    values = {}
+    if env_file.is_file():
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, _, value = line.partition("=")
+            values[key.strip()] = value.strip().strip("'\"")
+    for name in ("SFC_APP_KEY", "SFC_TOKEN", "SFC_USER_ID", "SFC_DIVISION_ID"):
+        values.setdefault(name, os.environ.get(name, ""))
+    missing = [
+        name for name in ("SFC_APP_KEY", "SFC_TOKEN", "SFC_USER_ID")
+        if not values[name]
+    ]
+    if missing:
+        raise SystemExit(
+            f"Missing {', '.join(missing)}: add them to {env_file} "
+            "or export them as environment variables."
+        )
+    return values
+
+
+creds = load_credentials()
 header = {
     "HeaderRequest": {
-        "appKey": os.environ["SFC_APP_KEY"],
-        "token": os.environ["SFC_TOKEN"],
-        "userId": os.environ["SFC_USER_ID"],
+        "appKey": creds["SFC_APP_KEY"],
+        "token": creds["SFC_TOKEN"],
+        "userId": creds["SFC_USER_ID"],
     }
 }
 
 # Use the confirmed division when SFC_DIVISION_ID is set; otherwise probe the
 # candidates in order (SKILL.md Step 2).
 candidates = (
-    [os.environ["SFC_DIVISION_ID"]]
-    if os.environ.get("SFC_DIVISION_ID")
+    [creds["SFC_DIVISION_ID"]]
+    if creds["SFC_DIVISION_ID"]
     else ["1", "17"]
 )
 

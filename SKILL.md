@@ -17,8 +17,11 @@ work yourself, and explain the result in plain language.
 
 ## Step 1: save and verify credentials
 
-If the customer provides SFC credentials, save them in the local secret file outside
-the project repository. Use the names below:
+If the customer provides SFC credentials, save them in a private `KEY=VALUE`
+file outside the project repository — by default
+`~/.config/sfc/credentials.env` (Windows:
+`%USERPROFILE%\.config\sfc\credentials.env`), or the path named by
+`SFC_ENV_FILE`. Use the names below:
 
 ```text
 SFC_USER_ID=<API username>
@@ -26,7 +29,12 @@ SFC_TOKEN=<API Token>
 SFC_APP_KEY=<API Key>
 ```
 
-Set the file permissions so only the local user can read it. Never print, commit, or
+Set the file permissions so only the local user can read it
+(`chmod 600 ~/.config/sfc/credentials.env` on macOS/Linux; on Windows a file
+inside the user profile is already private to that user). Alternatively, the
+same names may be exported as environment variables for a single session. The
+examples in this skill read the private file first and fall back to
+environment variables for any name the file does not set. Never print, commit, or
 put these values in a URL. If credentials were pasted into chat, save them to the private local file and do
 not repeat them in the conversation. Do not ask the customer to understand
 environment variables; explain that the file is a private local password file.
