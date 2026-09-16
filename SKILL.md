@@ -223,10 +223,12 @@ exact documented method. Ask for confirmation before deletion or status changes.
 - This skill covers only the SFC customer WebService at the official URLs below.
 - Use HTTPS GET with `apiName` and URL-encoded `parameter` at
   `https://www.sendfromchina.com/ishipsvc/http-api` for the verified legacy HTTP
-  operations in this skill. The local service code accepts form parameters on POST,
-  but the current customer account returned authentication failure for POST, while
-  GET succeeded. Do not switch this workflow to POST unless SFC confirms and tests
-  POST for the account. Use SOAP at
+  operations in this skill. GET is the verified form; the service code also
+  accepts form parameters on POST, but POST behavior is account- and
+  environment-dependent — one verified integration saw form-encoded POST fail
+  authentication with the same credentials that succeeded over GET. Do not
+  switch this workflow to POST unless SFC confirms and tests POST for the
+  account. Use SOAP at
   `https://www.sendfromchina.com/ishipsvc/web-service?wsdl` when required.
 - Legacy credentials are `appKey`, `token`, and `userId` unless the account's own
   official document explicitly uses another mapping.

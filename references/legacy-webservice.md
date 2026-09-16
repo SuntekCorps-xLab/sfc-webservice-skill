@@ -44,11 +44,14 @@ The HTTP endpoint takes the exact method name in `apiName` and a JSON-encoded
 GET https://www.sendfromchina.com/ishipsvc/http-api?apiName=getShiptypesByCountry&parameter=<URL-encoded JSON string>
 ```
 
-The local service code accepts form parameters on POST, but the current customer
-account returned an authentication error for the form-encoded POST while GET
-succeeded. JSON request bodies were rejected as an unknown `apiName` format. Treat
-POST as unsupported for this account unless SFC confirms and tests it. Do not assume
-every SOAP method has an HTTP equivalent.
+The service code also accepts form parameters on POST: with placeholder
+credentials, GET and form-encoded POST both reach the credential check
+identically. POST behavior with real credentials is account- and
+environment-dependent, though — one verified integration saw form-encoded POST
+fail authentication while GET succeeded with the same credentials. JSON request
+bodies are rejected as an unknown `apiName` because the dispatcher only reads
+form/query parameters. Default to GET unless SFC confirms and tests POST for
+your account. Do not assume every SOAP method has an HTTP equivalent.
 
 Example read-only request structure:
 

@@ -39,10 +39,11 @@ section 3 runs this probe automatically when `SFC_DIVISION_ID` is unset.
 
 ## 3. Build the request safely
 
-The legacy HTTP endpoint expects `apiName` plus a JSON string in `parameter`. For
-this customer account, use the verified GET request below. The local service code
-accepts form parameters on POST, but POST returned an authentication error while
-GET succeeded; do not use POST unless SFC confirms it for the account.
+The legacy HTTP endpoint expects `apiName` plus a JSON string in `parameter`.
+Use the verified GET request below. The service code also accepts form
+parameters on POST, but POST behavior is account-dependent — one verified
+integration saw POST fail authentication while GET succeeded — so do not use
+POST unless SFC confirms and tests it for the account.
 
 ```python
 import json

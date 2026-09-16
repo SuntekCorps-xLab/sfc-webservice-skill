@@ -53,7 +53,7 @@ assert.match(skill, /Stop as soon/);
 assert.match(skill, /addOrder/);
 assert.match(await read("examples/legacy-rates.md"), /method=\"GET\"/);
 assert.match(await read("examples/legacy-rates.md"), /http-api\?\" \+ query/);
-assert.match(await read("examples/legacy-rates.md"), /POST returned an authentication error/);
+assert.match(await read("examples/legacy-rates.md"), /POST behavior is account-dependent/);
 
 const env = await read(".env.example");
 assert.match(env, /^SFC_APP_KEY=$/m);
