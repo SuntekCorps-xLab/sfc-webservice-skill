@@ -28,6 +28,12 @@ const textFiles = [
   "examples/legacy-rates.md",
   "examples/soap-ship-types.md",
 ];
+const credentialScanFiles = [
+  ...textFiles,
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "references/legacy-webservice.md",
+];
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
 
 for (const file of requiredFiles) await fs.access(path.join(root, file));
@@ -59,10 +65,32 @@ const env = await read(".env.example");
 assert.match(env, /^SFC_APP_KEY=$/m);
 assert.match(env, /^SFC_TOKEN=$/m);
 assert.match(env, /^SFC_USER_ID=$/m);
-for (const file of textFiles) {
+// Credential assignments in the formats this repository actually uses
+// (export SFC_TOKEN='...', "token": "...", SFC_APP_KEY=...). Placeholder
+// values (YOUR_*, <...>) and empty values must stay allowed; the value must
+// start on the same line as the key ([ \t], not \s, so an empty assignment
+// followed by a newline never swallows the next line).
+const credentialAssignment =
+  /(?:appKey|token|userId|SFC_(?:APP_KEY|TOKEN|USER_ID|DIVISION_ID))[ \t]*['"]?[ \t]*[:=][ \t]*['"]?(?!YOUR_)(?!<)[A-Za-z0-9+/_-]{8,}/i;
+// Self-test: the scanner must catch realistic leaks in every documented format.
+for (const probe of [
+  "export SFC_TOKEN='c4d1e7b2a9f04c3e8b6d5a2f1e0c9b8a7d6e5f4c'",
+  '"token": "c4d1e7b2a9f04c3e8b6d5a2f1e0c9b8a7d6e5f4c"',
+  "SFC_APP_KEY=8f3a9c2b1d4e5f6a7b8c9d0e1f2a3b4c",
+  '"appKey":"Ab3dEf6hIj0lMn4pQr8tUv2wXy6z"',
+  "userId = W0911abc12345",
+]) {
+  assert.match(probe, credentialAssignment, `scanner missed probe: ${probe}`);
+}
+for (const file of credentialScanFiles) {
   const content = await read(file);
   assert.doesNotMatch(content, /(?:sk|pk|token|secret)[_-]?[a-z0-9]{20,}/i);
   assert.doesNotMatch(content, /(?:password|passwd)\s*[:=]\s*[^\s<>{}]+/i);
+  assert.doesNotMatch(
+    content,
+    credentialAssignment,
+    `${file} contains a credential-like assignment; use YOUR_* placeholders`,
+  );
 }
 
 const markdownLink = /\[[^\]]+\]\(([^)]+)\)/g;
