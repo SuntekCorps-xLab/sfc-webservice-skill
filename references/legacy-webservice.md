@@ -82,10 +82,19 @@ SFC; never hard-code the example values in production.
 
 ## SOAP example
 
+**Transport security**: the WSDL's advertised `soap:address` is plaintext
+`http://api.sfcservice.com/ishipsvc/web-service`. PHP `SoapClient` posts every
+call to that address unless the `location` option overrides it, so the example
+below pins the HTTPS location — otherwise `appKey` / `token` / `userId` travel
+unencrypted even though the WSDL itself was fetched over HTTPS.
+
 ```php
 $client = new SoapClient(
     'https://www.sendfromchina.com/ishipsvc/web-service?wsdl',
-    ['exceptions' => true]
+    [
+        'location' => 'https://www.sendfromchina.com/ishipsvc/web-service',
+        'exceptions' => true,
+    ]
 );
 $result = $client->getShipTypes([
     'HeaderRequest' => [

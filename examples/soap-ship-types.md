@@ -6,7 +6,14 @@ WSDL: `https://www.sendfromchina.com/ishipsvc/web-service?wsdl`
 <?php
 header('content-type:text/html;charset=utf-8');
 try {
-    $client = new SoapClient('https://www.sendfromchina.com/ishipsvc/web-service?wsdl');
+    // Security: the WSDL advertises a plaintext soap:address
+    // (http://api.sfcservice.com/ishipsvc/web-service). PHP SoapClient posts
+    // every call to that address unless 'location' is set, which would send
+    // appKey/token/userId unencrypted. Always pin the HTTPS location.
+    $client = new SoapClient('https://www.sendfromchina.com/ishipsvc/web-service?wsdl', [
+        'location' => 'https://www.sendfromchina.com/ishipsvc/web-service',
+        'exceptions' => true,
+    ]);
     $parameter = array(
         'HeaderRequest' => array(
             'appKey' => getenv('SFC_APP_KEY'),

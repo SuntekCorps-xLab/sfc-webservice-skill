@@ -7,6 +7,7 @@ All notable changes to this Skill are documented here.
 - Removed the nonexistent legacy `getTrack` method from the tracking workflow; documented `searchOrder` (order status and tracking number) and the Fulfillment v3 tracking API for scan-level events (#12).
 - Stopped pointing field lookups at `Cff-API-3.0.pdf` (it documents the separate Fulfillment API v3); the ishipsvc WSDL is now the documented field-level source for `addOrder` and other methods (#13).
 - Replaced the "canonical documentation" pointer to `https://www.sendfromchina.com/api` (Fulfillment REST API v3 portal, no legacy WebService content) with the ishipsvc WSDL and the `https://www.sendfromchina.com/webservice` example page (#14).
+- SOAP examples and skill boundaries now pin the SoapClient `location` to HTTPS because the WSDL's `soap:address` is plaintext `http://api.sfcservice.com/...`; added transport-security guidance to `references/auth.md` (#15).
 
 ## [1.0.0] - 2026-08-21
 

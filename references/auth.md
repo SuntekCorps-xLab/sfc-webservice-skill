@@ -22,6 +22,15 @@ SFC_USER_ID=
 
 Load into `HeaderRequest` at runtime only.
 
+## Transport security
+
+Send credentials only over HTTPS. Note that the WSDL's advertised
+`soap:address` is plaintext `http://api.sfcservice.com/ishipsvc/web-service`,
+and SOAP clients post to that address by default. Always pin the client
+`location` option to `https://www.sendfromchina.com/ishipsvc/web-service`
+(the HTTPS `https://api.sfcservice.com/...` equivalent also works). Never call
+the `http://` endpoints with real credentials.
+
 ## Failure modes
 
 - Wrong / expired credentials → auth or permission errors from the API.
