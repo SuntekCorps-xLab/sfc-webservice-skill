@@ -231,6 +231,10 @@ If the tracking number is empty, first query the order with `searchOrder` and
 explain whether SFC is still preparing the shipment. Ask the customer for the
 tracking number only when it was not returned by the order response.
 
+Report only statuses and events actually returned by SFC or the carrier. If a
+lookup fails or returns nothing, tell the customer exactly that. Never invent
+or guess a status, time, or location.
+
 ## Later operations
 
 Read-only operations — order lookup, fee queries, the reshipment-fee quote
@@ -265,8 +269,8 @@ or double charges.
   `https://www.sendfromchina.com/ishipsvc/web-service?wsdl` when required.
 - Legacy credentials are `appKey`, `token`, and `userId` unless the account's own
   official document explicitly uses another mapping.
-- Never invent an endpoint, method name, field name, unit, division, rate, or
-  signature rule.
+- Never invent an endpoint, method name, field name, unit, division, rate,
+  signature rule, order status, tracking event, or delivery date.
 - Never send credentials in chat, URLs, logs, screenshots, or source control.
 - Always use the HTTPS endpoints and refuse any `http://` SFC URL. The WSDL
   advertises a plaintext `soap:address` (`http://api.sfcservice.com/...`);

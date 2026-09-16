@@ -24,6 +24,7 @@ All notable changes to this Skill are documented here.
 - README install/update commands now honor `CODEX_HOME` on bash (matching the PowerShell variant), and a PowerShell update command was added (#29).
 - SKILL.md Step 8 and the endpoint map now treat the label print URL as a bearer link: the print page looks up orders without any credential or login, so the link must go through private channels only, must not be logged, and customers should prefer unguessable order codes (#30).
 - Classified every later operation as read-only or write: pickup (`addPickupBill`) and reshipment now require the same redacted preview and explicit confirmation as deletion/status changes, with response-body validation and duplicate-request handling; endpoint tables gained method names and a safety column (#31).
+- Step 9 and the skill boundaries now forbid inventing order statuses, tracking events, or delivery dates: report only values actually returned by SFC or the carrier, and say so when a lookup fails or returns nothing (#32).
 
 ## [1.0.0] - 2026-08-21
 
