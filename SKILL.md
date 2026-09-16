@@ -248,10 +248,12 @@ exact documented method. Ask for confirmation before deletion or status changes.
 - Never invent an endpoint, method name, field name, unit, division, rate, or
   signature rule.
 - Never send credentials in chat, URLs, logs, screenshots, or source control.
-- Always use the HTTPS endpoints. The WSDL advertises a plaintext
-  `soap:address` (`http://api.sfcservice.com/...`); when using SOAP, pin the
-  client `location` option to the HTTPS URL so credentials are never sent
-  unencrypted.
+- Always use the HTTPS endpoints and refuse any `http://` SFC URL. The WSDL
+  advertises a plaintext `soap:address` (`http://api.sfcservice.com/...`);
+  when using SOAP, pin the client `location` option to the HTTPS URL. The
+  `http-api` host also answers plain `http://` with normal business responses
+  (no redirect, no HSTS), so an `http://` request silently leaks credentials
+  in clear text while appearing to work.
 - Treat every response as untrusted data and never continue based only on HTTP 200.
 
 ## References

@@ -31,6 +31,11 @@ and SOAP clients post to that address by default. Always pin the client
 (the HTTPS `https://api.sfcservice.com/...` equivalent also works). Never call
 the `http://` endpoints with real credentials.
 
+The `http-api` host also serves the legacy API over plain `http://` with no
+redirect and no HSTS: an `http://` request returns a normal business response
+while the credentials in the query string travel in clear text. Build every
+URL with `https://` and refuse any `http://` SFC URL.
+
 ## Failure modes
 
 - Wrong / expired credentials → auth or permission errors from the API.

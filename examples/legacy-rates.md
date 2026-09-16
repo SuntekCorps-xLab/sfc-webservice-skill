@@ -134,8 +134,12 @@ for division_id in candidates:
         "apiName": "getShiptypesByCountry",
         "parameter": json.dumps(parameter, separators=(",", ":")),
     })
+    url = "https://www.sendfromchina.com/ishipsvc/http-api?" + query
+    # Transport rule: never send credentials over plain http:// (the host
+    # answers http:// without redirect or HSTS).
+    assert url.startswith("https://"), "refusing to send credentials over http://"
     request = urllib.request.Request(
-        "https://www.sendfromchina.com/ishipsvc/http-api?" + query,
+        url,
         headers={"Accept": "application/json"},
         method="GET",
     )
