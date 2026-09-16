@@ -139,7 +139,7 @@ npm ci
 npm run check
 ```
 
-The checks validate Skill frontmatter, internal Markdown links, required public files, example credential boundaries, and JavaScript syntax. They do not call SFC or require production credentials. This project does not provide an offline mock account: use the real SFC account to query rates and create orders; creating an order does not charge the customer until the parcel is received and processed by SFC.
+The checks validate Skill frontmatter, internal Markdown links and credential boundaries across every tracked Markdown file, required public files, and JavaScript syntax (`node --check` over `scripts/` and `tests/`). They do not call SFC or require production credentials. This project does not provide an offline mock account: use the real SFC account to query rates and create orders; creating an order does not charge the customer until the parcel is received and processed by SFC.
 
 ## Versioning
 

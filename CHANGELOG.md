@@ -14,6 +14,7 @@ All notable changes to this Skill are documented here.
 - Fixed `references/divisions.md`: division 17's English name is now "Overseas Sales Group" (was the unrelated physical warehouse name "Huizhou Warehouse"), the placeholder row 41 was removed, and a note clarifies that authoritative names/availability come from SFC and warehouse addresses must never be guessed from a `divisionId` (#20).
 - Documented the legacy `http-api` response envelope (HTTP 200 for all business outcomes, `{code,msg}` failure bodies, per-method success payloads, non-JSON edge cases); SKILL.md Steps 2/7 and the HTTP example now judge the parsed body instead of the HTTP status (#21).
 - Fixed the credential-boundary scan in `scripts/verify.mjs`: it now matches the assignment formats the repository actually uses (`appKey`/`token`/`userId`/`SFC_*` with `:` or `=`, excluding `YOUR_*` and `<...>` placeholders), covers every Markdown file, and self-tests against realistic leak probes (#22).
+- `npm run check` now lives up to the README description: link and credential scans run over every tracked Markdown file (`git ls-files '*.md'`, with a static fallback for tarballs), and JavaScript files in `scripts/` and `tests/` are syntax-checked with `node --check` (#23).
 
 ## [1.0.0] - 2026-08-21
 

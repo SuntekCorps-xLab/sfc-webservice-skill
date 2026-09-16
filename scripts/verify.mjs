@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -34,6 +35,25 @@ const credentialScanFiles = [
   "SECURITY.md",
   "references/legacy-webservice.md",
 ];
+// Scan every tracked Markdown file so new docs cannot slip out of the link and
+// credential checks. When git is unavailable (e.g. a source tarball), fall back
+// to the static list above.
+const trackedMarkdown = spawnSync("git", ["ls-files", "-z", "*.md"], {
+  cwd: root,
+  encoding: "utf8",
+});
+const markdownFiles =
+  trackedMarkdown.status === 0 && trackedMarkdown.stdout.trim() !== ""
+    ? trackedMarkdown.stdout.split("\0").filter(Boolean)
+    : credentialScanFiles;
+// Enumerate JavaScript files from the filesystem so brand-new, not-yet-tracked
+// files are syntax-checked too.
+const moduleFiles = [];
+for (const dir of ["scripts", "tests"]) {
+  for (const entry of await fs.readdir(path.join(root, dir))) {
+    if (entry.endsWith(".mjs")) moduleFiles.push(path.join(dir, entry));
+  }
+}
 const read = (file) => fs.readFile(path.join(root, file), "utf8");
 
 for (const file of requiredFiles) await fs.access(path.join(root, file));
@@ -82,7 +102,7 @@ for (const probe of [
 ]) {
   assert.match(probe, credentialAssignment, `scanner missed probe: ${probe}`);
 }
-for (const file of credentialScanFiles) {
+for (const file of markdownFiles) {
   const content = await read(file);
   assert.doesNotMatch(content, /(?:sk|pk|token|secret)[_-]?[a-z0-9]{20,}/i);
   assert.doesNotMatch(content, /(?:password|passwd)\s*[:=]\s*[^\s<>{}]+/i);
@@ -94,7 +114,7 @@ for (const file of credentialScanFiles) {
 }
 
 const markdownLink = /\[[^\]]+\]\(([^)]+)\)/g;
-for (const file of textFiles) {
+for (const file of markdownFiles) {
   const content = await read(file);
   for (const match of content.matchAll(markdownLink)) {
     const target = match[1].split("#", 1)[0];
@@ -108,5 +128,15 @@ for (const workflow of workflows) {
   for (const line of content.split(/\r?\n/).filter((value) => value.includes(" uses: "))) {
     assert.match(line, /@[0-9a-f]{40}(?:\s|$)/i);
   }
+}
+for (const file of moduleFiles) {
+  const result = spawnSync(process.execPath, ["--check", path.join(root, file)], {
+    encoding: "utf8",
+  });
+  assert.equal(
+    result.status,
+    0,
+    `node --check failed for ${file}: ${result.stderr.trim()}`,
+  );
 }
 console.log("Skill repository verification passed.");
