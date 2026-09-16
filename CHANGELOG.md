@@ -5,6 +5,7 @@ All notable changes to this Skill are documented here.
 ## [Unreleased]
 
 - Removed the nonexistent legacy `getTrack` method from the tracking workflow; documented `searchOrder` (order status and tracking number) and the Fulfillment v3 tracking API for scan-level events (#12).
+- Stopped pointing field lookups at `Cff-API-3.0.pdf` (it documents the separate Fulfillment API v3); the ishipsvc WSDL is now the documented field-level source for `addOrder` and other methods (#13).
 
 ## [1.0.0] - 2026-08-21
 

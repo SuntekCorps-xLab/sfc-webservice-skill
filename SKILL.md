@@ -145,7 +145,8 @@ Do not expose credentials in the preview.
 
 ## Step 7: create and report the order
 
-Only after confirmation, read the official `addOrder` field table and submit the
+Only after confirmation, read the `addOrder` field table in the official WSDL
+(`https://www.sendfromchina.com/ishipsvc/web-service?wsdl`) and submit the
 request. Validate the HTTP result and the documented business result. Report the
 returned SFC order identifier and tracking number, if present, in a concise summary.
 If the request fails, explain the actual safe-to-share error and identify the missing

@@ -6,7 +6,12 @@ Use this guide for the SFC customer WebService covered by this skill.
   `https://www.sendfromchina.com/ishipsvc/http-api`
 - SOAP WSDL: `https://www.sendfromchina.com/ishipsvc/web-service?wsdl`
 - Official documentation: https://www.sendfromchina.com/api
-- Legacy PDF: https://fulfill.sendfromchina.com/file/Cff-API-3.0.pdf
+- Field-level source: the WSDL above is the authoritative field table for this
+  WebService (`HeaderRequest{userId, appKey, token}`, `addOrderRequestInfo`, …).
+- Warning: https://fulfill.sendfromchina.com/file/Cff-API-3.0.pdf documents a
+  **different service** (the SFC Fulfillment API v3 — warehouse fulfillment with
+  `customerId`/`appToken` auth and methods like `createOrder`/`createProduct`).
+  Do not use it for this WebService's endpoint, auth, or field names.
 
 ## Authentication
 
@@ -89,8 +94,10 @@ $result = $client->getShipTypes([
 ```
 
 Use SOAP only with the fields and response shape documented for that method. For
-`addOrder`, labels, tracking, and rates, read the matching official method page or
-PDF section before sending a request. Do not guess fields from another SFC API.
+`addOrder`, labels, rates, and order queries, read the matching WSDL section or
+official method page before sending a request. Do not guess fields from another
+SFC API — in particular, the Fulfillment API v3 PDF uses different auth names
+and method names and does not apply here.
 
 ## Legacy operation selection
 
