@@ -9,6 +9,7 @@ All notable changes to this Skill are documented here.
 - Replaced the "canonical documentation" pointer to `https://www.sendfromchina.com/api` (Fulfillment REST API v3 portal, no legacy WebService content) with the ishipsvc WSDL and the `https://www.sendfromchina.com/webservice` example page (#14).
 - SOAP examples and skill boundaries now pin the SoapClient `location` to HTTPS because the WSDL's `soap:address` is plaintext `http://api.sfcservice.com/...`; added transport-security guidance to `references/auth.md` (#15).
 - Made division discovery self-contained: `SFC_DIVISION_ID` is documented as optional in SKILL.md Step 1, Step 2 records the discovered division under that name, the HTTP example probes `1` then `17` when it is unset, and the `.env.example` comment matches the discovery rule (#17).
+- Removed the orphaned `examples/https-rates.md`; its verified GET request shape is covered by `examples/legacy-rates.md`, and its unverified POST guidance contradicted the skill's transport boundaries (#18).
 
 ## [1.0.0] - 2026-08-21
 
