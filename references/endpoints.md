@@ -1,6 +1,7 @@
 # Endpoint catalog
 
-Canonical docs: https://www.sendfromchina.com/api  
+Canonical field-level docs: the WSDL at https://www.sendfromchina.com/ishipsvc/web-service?wsdl  
+(https://www.sendfromchina.com/api is the Fulfillment REST API v3 portal — a different service)  
 Prefer **HTTPS** when both SOAP and HTTPS exist.
 
 Base URLs:
@@ -51,7 +52,7 @@ Base URLs:
 
 Field-level schemas change and are lengthy. For any method you implement:
 
-1. Open the matching section on https://www.sendfromchina.com/api  
+1. Open the matching operation in the WSDL at https://www.sendfromchina.com/ishipsvc/web-service?wsdl (Chinese SOAP examples: https://www.sendfromchina.com/webservice)  
 2. Copy required/optional fields from there  
 3. Do not invent `apiName` values not listed officially  
 

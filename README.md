@@ -7,9 +7,11 @@
 
 Integration guide for the **SFC customer logistics WebService** — shipping methods, rates, orders, labels, tracking, and related operations.
 
-Canonical documentation (field-level schemas):
+Canonical documentation for this WebService:
 
-- https://www.sendfromchina.com/api
+- Field-level schema (authoritative): https://www.sendfromchina.com/ishipsvc/web-service?wsdl
+- WebService example page (Chinese; SOAP examples for `getShipTypes`, `getRates`, `addOrder`, `searchOrder`): https://www.sendfromchina.com/webservice
+- Note: https://www.sendfromchina.com/api is the portal for the separate SFC Fulfillment REST API v3; it does not document the legacy WebService above
 
 This repository is a practical guide for the SFC customer WebService. It explains how to choose an operation, prepare credentials, make a read-only request, and safely proceed to order operations. It does **not** replace the official page or include production credentials and private pricing rules.
 

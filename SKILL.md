@@ -239,4 +239,9 @@ exact documented method. Ask for confirmation before deletion or status changes.
 - [Beginner HTTP example](examples/legacy-rates.md)
 - [Beginner SOAP example](examples/soap-ship-types.md)
 
-Official documentation: https://www.sendfromchina.com/api
+Official portal: https://www.sendfromchina.com/api — note that it documents the
+separate Fulfillment REST API v3, not this legacy WebService's field schemas.
+The field-level source for this WebService is the WSDL:
+https://www.sendfromchina.com/ishipsvc/web-service?wsdl; SOAP examples for
+`getShipTypes`, `getRates`, `addOrder`, and `searchOrder` are on
+https://www.sendfromchina.com/webservice (Chinese).

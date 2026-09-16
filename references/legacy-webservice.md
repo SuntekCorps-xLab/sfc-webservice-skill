@@ -5,7 +5,11 @@ Use this guide for the SFC customer WebService covered by this skill.
 - HTTPS endpoint (preferred where the method is documented):
   `https://www.sendfromchina.com/ishipsvc/http-api`
 - SOAP WSDL: `https://www.sendfromchina.com/ishipsvc/web-service?wsdl`
-- Official documentation: https://www.sendfromchina.com/api
+- Official documentation: the WSDL above is the field-level schema;
+  https://www.sendfromchina.com/webservice (Chinese) carries SOAP examples for
+  `getShipTypes`, `getRates`, `addOrder`, and `searchOrder`.
+  https://www.sendfromchina.com/api is the portal of the separate Fulfillment
+  REST API v3 and does not document this WebService.
 - Field-level source: the WSDL above is the authoritative field table for this
   WebService (`HeaderRequest{userId, appKey, token}`, `addOrderRequestInfo`, …).
 - Warning: https://fulfill.sendfromchina.com/file/Cff-API-3.0.pdf documents a
