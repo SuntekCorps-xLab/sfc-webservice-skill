@@ -42,8 +42,10 @@ read-only shipping-method lookup in Step 2.
 
 The customer normally has one applicable distribution center. Test `divisionId=1`
 first. If it does not return a valid usable result, try `divisionId=17`. Use `US`
-and a small sample parcel only to discover the account configuration. A valid result
-is an HTTP success response containing a non-empty shipping-method list. Stop as soon
+and a small sample parcel only to discover the account configuration. A valid
+result is a response whose parsed body contains a non-empty shipping-method
+list and no error `code` — the legacy HTTP API returns HTTP 200 even for
+failures, so judge the body, not the status code. Stop as soon
 as one candidate works, record it locally as the active division in
 `SFC_DIVISION_ID`, and use it for the rest of the conversation. Do not ask the
 customer to choose between the two IDs.
@@ -152,8 +154,11 @@ Do not expose credentials in the preview.
 
 Only after confirmation, read the `addOrder` field table in the official WSDL
 (`https://www.sendfromchina.com/ishipsvc/web-service?wsdl`) and submit the
-request. Validate the HTTP result and the documented business result. Report the
-returned SFC order identifier and tracking number, if present, in a concise summary.
+request. Validate the parsed response body against the documented business
+result — the legacy HTTP API returns HTTP 200 even for errors, so an error
+`code`/`msg` in the body, not the HTTP status, decides success. Report the
+returned SFC order identifier and tracking number, if present, in a concise
+summary.
 If the request fails, explain the actual safe-to-share error and identify the missing
 or invalid business information needed from the customer. Never expose credentials,
 full personal data, or internal request dumps.

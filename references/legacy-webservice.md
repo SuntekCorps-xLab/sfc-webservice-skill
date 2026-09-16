@@ -83,6 +83,37 @@ The JSON before URL encoding may look like:
 silently substituted. Shipping type and division values come from the account and
 SFC; never hard-code the example values in production.
 
+## Response envelope and error handling
+
+The `http-api` endpoint returns **HTTP 200 for every business outcome**, with
+`Content-Type: text/html` even though the body is JSON. Never judge success by
+the HTTP status; parse the body instead.
+
+Failure bodies use a `{code, msg}` envelope:
+
+| Body | Trigger |
+|------|---------|
+| `{"code":404,"msg":"apiName参数错误,api不存在"}` | unknown or missing `apiName` |
+| `{"code":500,"msg":"Sorry an error was caught executing your request:<reason>"}` | a service fault: invalid credentials (`invalid userId, token and appKey`), missing fields (`userId is null`), empty result sets, and similar |
+| `{"code":500,"msg":"数据解析错误（data deal error）"}` | malformed or empty `parameter` JSON |
+
+Chinese `msg` text arrives `\u`-escaped inside the JSON.
+
+Success bodies have **no uniform envelope** — each method returns its own
+payload: `getShiptypesByCountry` and `getRates` return a plain array of
+methods/rates, `searchOrder` returns `{"orderInfo": {...}}`, and a few methods
+return `{"code":200,"data":...}`. Practical rule: if a `code` field is present,
+treat only `200` as success and `404`/`500` as failure; if it is absent,
+validate the expected payload (for example a non-empty shipping-method list).
+
+Edge cases that are not JSON:
+
+- An over-long GET URL produces a server-level HTML error page (`500`, or
+  `414` for very large requests) instead of the envelope.
+- The label print page answers `200 text/html` with a plain-text error such as
+  `找不到订单!` for an unknown order. Always confirm the response is actually a
+  PDF before treating a label as printed.
+
 ## SOAP example
 
 **Transport security**: the WSDL's advertised `soap:address` is plaintext
