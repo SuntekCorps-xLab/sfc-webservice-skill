@@ -11,6 +11,7 @@ All notable changes to this Skill are documented here.
 - Made division discovery self-contained: `SFC_DIVISION_ID` is documented as optional in SKILL.md Step 1, Step 2 records the discovered division under that name, the HTTP example probes `1` then `17` when it is unset, and the `.env.example` comment matches the discovery rule (#17).
 - Removed the orphaned `examples/https-rates.md`; its verified GET request shape is covered by `examples/legacy-rates.md`, and its unverified POST guidance contradicted the skill's transport boundaries (#18).
 - Rephrased the account-specific "POST returned authentication failure" claim as account-dependent behavior across SKILL.md, `references/legacy-webservice.md` and `examples/legacy-rates.md`; `verify.mjs` now pins the neutral GET-default guidance instead of the anecdote (#19).
+- Fixed `references/divisions.md`: division 17's English name is now "Overseas Sales Group" (was the unrelated physical warehouse name "Huizhou Warehouse"), the placeholder row 41 was removed, and a note clarifies that authoritative names/availability come from SFC and warehouse addresses must never be guessed from a `divisionId` (#20).
 
 ## [1.0.0] - 2026-08-21
 
