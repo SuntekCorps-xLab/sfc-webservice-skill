@@ -70,7 +70,7 @@ getRates / getRatesByShip
         ↓
 addOrder
         ↓
-label print / getTrack / fee & order query
+label print / searchOrder status / fee & order query
 ```
 
 Before creating orders, load ship types and rates (and confirm channel choice with your account manager). Business process overview: https://www.sendfromchina.com/help
@@ -102,7 +102,8 @@ Before creating orders, load ship types and rates (and confirm channel choice wi
 | Capability | How |
 |------------|-----|
 | Address label print | HTTPS print URL (`/order/print/index/…`) — `orderCodeList`, `printType`, `print_type`, `printSize` |
-| Tracking (new API) | HTTPS `getTrack` |
+| Order status / tracking number | `searchOrder` returns `trackNumber` and `orderStatus`; the legacy WebService has no scan-level tracking method |
+| Scan-level tracking events | Carrier site with the returned tracking number, or Fulfillment v3 `GET /v3/trackings/{trackingNumber}` (own credentials, see official OpenAPI page) |
 | Carrier lookup by number | HTTPS (official page) |
 | Tracking number / label upload | HTTPS (official page) |
 

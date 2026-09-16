@@ -186,16 +186,25 @@ order code, tracking number, or label status:
 
 ## Step 9: track the shipment
 
-Once a tracking number exists, offer to check it. Use the documented legacy tracking
-method (`getTrack`, or the account's documented equivalent) with the tracking number
-returned by SFC. Explain that a newly created label may show no scan immediately;
-that is different from an API failure. Report the latest event, event time, location,
-and next action in plain language. Do not expose the customer's full address or
-credentials.
+The legacy WebService has no scan-level tracking method; do not invent one.
+Once a tracking number exists, offer to check the shipment like this:
 
-If tracking is not yet available, first query the order and explain whether SFC is
-still preparing the shipment. Ask the customer for the tracking number only when it
-was not returned by the order response.
+1. Call the read-only legacy `searchOrder` with the customer order code. It
+   returns `trackNumber`, `orderStatus` (English and Chinese), `sendTime`, and
+   `deliveryTime`. Report the order status and dates in plain language.
+2. For scan-level tracking events, use the returned tracking number on the
+   carrier's tracking site, or the SFC Fulfillment v3 tracking API
+   (`GET https://fulfill.sendfromchina.com/v3/trackings/{trackingNumber}`,
+   operation `getTrackingInfo`). That API uses its own `ApiKeyAuth` /
+   `SignatureAuth` credentials documented in the official OpenAPI page — never
+   send the legacy `appKey` / `token` / `userId` to it.
+3. Explain that a newly created label may show no scan immediately; that is
+   different from an API failure. Do not expose the customer's full address or
+   credentials.
+
+If the tracking number is empty, first query the order with `searchOrder` and
+explain whether SFC is still preparing the shipment. Ask the customer for the
+tracking number only when it was not returned by the order response.
 
 ## Later operations
 

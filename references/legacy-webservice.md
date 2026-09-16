@@ -100,7 +100,7 @@ PDF section before sending a request. Do not guess fields from another SFC API.
 | Quote | `getRates`, `getRatesByShip` | Read-only |
 | Create shipment | `addOrder` | Changes data; confirm first |
 | Find an order | `searchOrder` | Read-only |
-| Track | `getTrack` | Read-only |
+| Order status / tracking number | `searchOrder` (legacy has no scan-level tracking method) | Read-only |
 | Remove/change an order | `deleteOrder`, update methods | Confirm exact order first |
 
 Names, fields, and protocol support vary by legacy document version. The official

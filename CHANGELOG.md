@@ -4,7 +4,7 @@ All notable changes to this Skill are documented here.
 
 ## [Unreleased]
 
-- No unreleased changes.
+- Removed the nonexistent legacy `getTrack` method from the tracking workflow; documented `searchOrder` (order status and tracking number) and the Fulfillment v3 tracking API for scan-level events (#12).
 
 ## [1.0.0] - 2026-08-21
 
